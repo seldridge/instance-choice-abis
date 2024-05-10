@@ -2,16 +2,35 @@
 
 set -euo pipefail
 
-verilator --lint-only Foo.sv -I.
+function test_pass() {
+  echo "Test: '$1'"
 
-verilator --lint-only targets_Target_A.sv Foo.sv -I.
+  if $1; then
+    echo "  pass"
+  else
+    echo "  fail"
+    exit 1
+  fi
+}
 
-verilator --lint-only targets_Target_B.sv Foo.sv -I.
+function test_fail() {
+  echo "Test: '$1'"
 
-! verilator --lint-only Foo.sv targets_Target_A.sv -I.
+  if ! $1 2>/dev/null; then
+    echo "  pass"
+  else
+    echo "  fail"
+    exit 1
+  fi
+}
 
-! verilator --lint-only Foo.sv targets_Target_B.sv -I.
+VERILATOR_OPTIONS="-Wall"
 
-! verilator --lint-only targets_Target_A.sv targets_Target_A.sv Foo.sv -I.
+test_pass "verilator --lint-only Foo.sv -I."
+test_pass "verilator --lint-only targets_Foo_Target_A.sv Foo.sv -I."
+test_pass "verilator --lint-only targets_Foo_Target_B.sv Foo.sv -I."
 
-! verilator --lint-only targets_Target_A.sv targets_Target_B.sv Foo.sv -I.
+test_fail "verilator --lint-only Foo.sv targets_Foo_Target_A.sv -I. $VERILATOR_OPTIONS"
+test_fail "verilator --lint-only Foo.sv targets_Foo_Target_B.sv -I. $VERILATOR_OPTIONS"
+test_fail "verilator --lint-only targets_Foo_Target_A.sv targets_Foo_Target_A.sv Foo.sv -I. $VERILATOR_OPTIONS"
+test_fail "verilator --lint-only targets_Foo_Target_A.sv targets_Foo_Target_B.sv Foo.sv -I. $VERILATOR_OPTIONS"

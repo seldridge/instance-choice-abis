@@ -1,6 +1,6 @@
 // Defines for the instance choices
-`ifndef target_Target_foo_x
- `define target_Target_foo_x Bar
+`ifndef target_Foo_Target_foo_x
+ `define target_Foo_Target_foo_x Bar
  `define targetref_Foo_x_a b
 `endif
 
@@ -9,7 +9,7 @@
 
 module Foo();
 
-  `target_Target_foo_x x();
+  `target_Foo_Target_foo_x x();
 
 endmodule
 
