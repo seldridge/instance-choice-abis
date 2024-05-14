@@ -26,11 +26,11 @@ function test_fail() {
 
 VERILATOR_OPTIONS="-Wall"
 
-test_pass "verilator --lint-only Foo.sv -I."
-test_pass "verilator --lint-only targets_Foo_Target_A.sv Foo.sv -I."
-test_pass "verilator --lint-only targets_Foo_Target_B.sv Foo.sv -I."
+test_pass "verilator --lint-only ref_Foo.sv Test.sv -I."
+test_pass "verilator --lint-only targets_Foo_Target_A.vh ref_Foo.sv Test.sv -I."
+test_pass "verilator --lint-only targets_Foo_Target_B.vh ref_Foo.sv Test.sv -I."
 
-test_fail "verilator --lint-only Foo.sv targets_Foo_Target_A.sv -I. $VERILATOR_OPTIONS"
-test_fail "verilator --lint-only Foo.sv targets_Foo_Target_B.sv -I. $VERILATOR_OPTIONS"
-test_fail "verilator --lint-only targets_Foo_Target_A.sv targets_Foo_Target_A.sv Foo.sv -I. $VERILATOR_OPTIONS"
-test_fail "verilator --lint-only targets_Foo_Target_A.sv targets_Foo_Target_B.sv Foo.sv -I. $VERILATOR_OPTIONS"
+test_fail "verilator --lint-only Test.sv targets_Foo_Target_A.vh -I. $VERILATOR_OPTIONS"
+test_fail "verilator --lint-only Test.sv targets_Foo_Target_B.vh -I. $VERILATOR_OPTIONS"
+test_fail "verilator --lint-only targets_Foo_Target_A.vh targets_Test_Target_A.vh Test.sv -I. $VERILATOR_OPTIONS"
+test_fail "verilator --lint-only targets_Foo_Target_A.vh targets_Test_Target_B.vh Test.sv -I. $VERILATOR_OPTIONS"

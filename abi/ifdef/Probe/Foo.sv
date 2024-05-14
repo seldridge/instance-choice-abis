@@ -1,21 +1,10 @@
 // Defines for the instance choices
-`ifndef target_Foo_Target_foo_x
- `define target_Foo_Target_foo_x Bar
- `define targetref_Foo_x_a b
+`ifndef __target_Target_foo_x
+ `define __target_Target_foo_x Bar
 `endif
-
-// Defines for the refs
-`define ref_Foo_x x.`targetref_Foo_x_a
 
 module Foo();
 
-  `target_Foo_Target_foo_x x();
-
-endmodule
-
-module Test();
-
-  Foo foo();
-  wire a = foo.`ref_Foo_x;
+  `__target_Target_foo_x x();
 
 endmodule
